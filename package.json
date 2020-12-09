@@ -24,5 +24,10 @@
     "jest": "^26.6.3",
     "ts-jest": "^26.4.4",
     "typescript": "^4.1.2"
+  },
+  "dependencies": {
+    "@sangwoo/logger": "^1.0.0",
+    "@types/express": "^4.17.9",
+    "express": "^4.17.1"
   }
 }
