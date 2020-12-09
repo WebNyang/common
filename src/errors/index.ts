@@ -3,3 +3,4 @@ export * from './NotFoundError';
 export * from './BadRequestError';
 export * from './DatabaseConnectionError';
 export * from './SystemError';
+export * from './RequestValidationError';
