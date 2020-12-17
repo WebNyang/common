@@ -1,8 +1,8 @@
 import { IBaseRecord } from './BaseRecord';
 import { RecordKey } from './RecordKey';
 
-export interface IContinuousTrainingCreatedRecord extends IBaseRecord {
-    key: RecordKey.Created;
+export interface IContinuousTrainingRecord extends IBaseRecord {
+    key: RecordKey;
     value: IContinuousTrainingValue;
 }
 
