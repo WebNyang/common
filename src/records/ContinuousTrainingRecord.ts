@@ -8,6 +8,7 @@ export interface IContinuousTrainingRecord extends IBaseRecord {
 
 export interface IContinuousTrainingValue {
     _id?: string;
+    client: string;
     title?: string;
     testSet: string;
     trainingSet: string;
