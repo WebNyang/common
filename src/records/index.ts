@@ -7,3 +7,4 @@ export * from './TrainingResultRecord';
 export * from './ModelStorageRecord';
 export * from './EvaluationResultRecord';
 export * from './TrainingSetBuilderRecord';
+export * from './ImageGroupRecord';
