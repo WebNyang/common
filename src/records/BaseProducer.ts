@@ -33,16 +33,19 @@ export abstract class BaseProducer<T extends IBaseRecord> {
     /**
      * Send a record to the topic.
      *
-     * @param key Key of the record.
      * @param value Value of the record.
+     * @param key Key of the record.
      */
-    async send(key: T['key'], value: T['value']) {
+    async send(value: T['value'], key?: T['key']) {
+        const message = key ? {
+            key: key,
+            value: JSON.stringify(value)
+        } : {
+            value: JSON.stringify(value)
+        }
         await this.producer.send({
             topic: this.topic,
-            messages: [{
-                key: key,
-                value: JSON.stringify(value)
-            }]
+            messages: [message]
         });
     }
 }
