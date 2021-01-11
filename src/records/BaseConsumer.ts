@@ -37,9 +37,11 @@ export abstract class BaseConsumer<T extends IBaseRecord> {
 
         await this.consumer.run({
             eachMessage: async ({ topic, partition, message }) => {
+                this.consumer.pause([{ topic }]);
                 const parsedValue = this.parseValue(message);
 
-                this.eachMessage(message.key?.toString() || "", parsedValue);
+                await this.eachMessage(message.key?.toString() || "", parsedValue);
+                this.consumer.resume([{ topic }]);
             }
         });
     }
