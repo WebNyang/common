@@ -1,4 +1,4 @@
-import { Kafka, Consumer, KafkaMessage } from 'kafkajs';
+import { Kafka, Consumer, KafkaMessage, ConsumerRunConfig } from 'kafkajs';
 
 import { IBaseRecord } from './BaseRecord';
 
@@ -31,7 +31,7 @@ export abstract class BaseConsumer<T extends IBaseRecord> {
     /**
      * Subscribe the topic within a given consumer group.
      */
-    async subscribe() {
+    async subscribe(runConfig?: ConsumerRunConfig) {
         this.consumer = this.kafka.consumer({ groupId: this.consumerGroup });
 
         await this.consumer.connect();
@@ -42,6 +42,7 @@ export abstract class BaseConsumer<T extends IBaseRecord> {
         });
 
         await this.consumer.run({
+            ...runConfig,
             eachMessage: async ({ topic, partition, message }) => {
                 this.consumer.pause([{ topic, partitions: [partition] }]);
                 const parsedValue = this.parseValue(message);
