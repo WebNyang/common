@@ -1,4 +1,4 @@
-import { Kafka, Producer } from 'kafkajs';
+import {Kafka, Producer, ProducerConfig } from 'kafkajs';
 
 import { IBaseRecord } from './BaseRecord';
 
@@ -15,11 +15,12 @@ export abstract class BaseProducer<T extends IBaseRecord> {
      * Inject kafka and create producer.
      *
      * @param kafka Kafka object.
+     * @param config
      */
-    constructor(kafka: Kafka) {
+    constructor(kafka: Kafka, config?: ProducerConfig) {
         this.kafka = kafka;
 
-        this.producer = this.kafka.producer();
+        this.producer = this.kafka.producer(config);
     }
 
     /**
