@@ -49,4 +49,11 @@ export abstract class BaseProducer<T extends IBaseRecord> {
             messages: [message]
         });
     }
+
+    /**
+     * Disconnect from the brokers.
+     */
+    async disconnect() {
+        await this.producer.disconnect();
+    }
 }
