@@ -2,13 +2,19 @@ import { Kafka, Consumer, KafkaMessage } from 'kafkajs';
 
 import { IBaseRecord } from './BaseRecord';
 
+export interface IMessageMeta {
+    topic: string;
+    partition: number;
+    offset: string;
+}
+
 /**
  * Base Kafka consumer.
  */
 export abstract class BaseConsumer<T extends IBaseRecord> {
     abstract topic: string;
     abstract consumerGroup: string;
-    abstract eachMessage(key: T['key'], value: T['value']): void;
+    abstract eachMessage(key: T['key'], value: T['value'], meta?: IMessageMeta): void;
 
     private kafka: Kafka;
     private consumer!: Consumer
@@ -39,8 +45,9 @@ export abstract class BaseConsumer<T extends IBaseRecord> {
             eachMessage: async ({ topic, partition, message }) => {
                 this.consumer.pause([{ topic, partitions: [partition] }]);
                 const parsedValue = this.parseValue(message);
+                const meta = { topic, partition, offset: message.offset }
 
-                await this.eachMessage(message.key?.toString() || "", parsedValue);
+                await this.eachMessage(message.key?.toString() || "", parsedValue, meta);
                 this.consumer.resume([{ topic, partitions: [partition] }]);
             }
         });
