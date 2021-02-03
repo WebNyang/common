@@ -56,4 +56,12 @@ export abstract class BaseProducer<T extends IBaseRecord> {
     async disconnect() {
         await this.producer.disconnect();
     }
+
+    /**
+     * Return producer object of kafkajs.
+     * It needs to manipulate transaction or logger.
+     */
+    getProducer(): Producer {
+        return this.producer;
+    }
 }
