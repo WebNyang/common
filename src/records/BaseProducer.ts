@@ -9,7 +9,7 @@ export abstract class BaseProducer<T extends IBaseRecord> {
     abstract topic: string;
 
     private kafka: Kafka;
-    private producer!: Producer
+    private readonly producer!: Producer
 
     /**
      * Inject kafka and create producer.
