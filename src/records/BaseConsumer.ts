@@ -62,6 +62,10 @@ export abstract class BaseConsumer<T extends IBaseRecord> {
         });
     }
 
+    async disconnect() {
+        return this.consumer.disconnect();
+    }
+
     private parseValue(message: KafkaMessage) {
         const value = message.value?.toString();
 
