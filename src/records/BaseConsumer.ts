@@ -54,6 +54,14 @@ export abstract class BaseConsumer<T extends IBaseRecord> {
         });
     }
 
+    seek(meta: IMessageMeta) {
+        this.consumer.seek({
+            topic: meta.topic,
+            partition: meta.partition,
+            offset: meta.offset
+        });
+    }
+
     private parseValue(message: KafkaMessage) {
         const value = message.value?.toString();
 
