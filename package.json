@@ -1,6 +1,6 @@
 {
   "name": "@sangwoo/common",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Web common library.",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
