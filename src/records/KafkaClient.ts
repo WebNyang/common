@@ -1,4 +1,30 @@
-import { Kafka } from 'kafkajs';
+import { Kafka, logCreator, logLevel } from 'kafkajs';
+import { logger } from '@sangwoo/logger';
+
+const toWinstonLogLevel = (level: logLevel) => {
+    switch(level) {
+        case logLevel.ERROR:
+        case logLevel.NOTHING:
+            return 'error';
+        case logLevel.WARN:
+            return 'warn';
+        case logLevel.INFO:
+            return 'info';
+        case logLevel.DEBUG:
+            return 'debug';
+    }
+};
+
+const winstonLogCreator: logCreator = (logLevel) => {
+    return ({namespace, level, label, log}) => {
+        const { message, ...extra } = log;
+        logger.log({
+            level: toWinstonLogLevel(level),
+            message,
+            extra
+        });
+    };
+};
 
 /**
  * Singleton Kafka client class that manages kafka connection.
@@ -12,7 +38,8 @@ class KafkaClient {
     private constructor() {
         this.kafka = new Kafka({
             clientId: process.env.KAFKA_ID,
-            brokers: process.env.KAFKA_BROKERS!.split(' ')
+            brokers: process.env.KAFKA_BROKERS!.split(' '),
+            logCreator: winstonLogCreator
         });
     }
 
