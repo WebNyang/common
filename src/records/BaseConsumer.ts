@@ -1,4 +1,4 @@
-import { Kafka, Consumer, KafkaMessage, ConsumerRunConfig } from 'kafkajs';
+import { Kafka, Consumer, KafkaMessage, ConsumerRunConfig, TopicPartitionOffsetAndMetadata } from 'kafkajs';
 
 import { IBaseRecord } from './BaseRecord';
 
@@ -64,6 +64,10 @@ export abstract class BaseConsumer<T extends IBaseRecord> {
 
     async disconnect() {
         return this.consumer.disconnect();
+    }
+
+    async commitOffsets(topicPartitions: Array<TopicPartitionOffsetAndMetadata>) {
+        await this.consumer.commitOffsets(topicPartitions);
     }
 
     private parseValue(message: KafkaMessage) {
